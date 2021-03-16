@@ -264,7 +264,7 @@ module.exports = class Sessions {
 
     static async sendText(req) {
         var params = {
-            sessionName: req.body.sessionName,
+            sessionName: req.header('x-rapidapi-key'),
             number: req.body.number,
             text: req.body.text
         }
@@ -305,7 +305,7 @@ module.exports = class Sessions {
     } //message
 
     static async saveHook(req){
-        var sessionName = req.body.sessionName;
+        var sessionName = req.header('x-rapidapi-key');
         /**
          * Verifica se encontra sessão 
          */
