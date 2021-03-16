@@ -39,11 +39,11 @@ app.post('/exec', async (req, res) => {
 });
 
 app.get("/start", async (req, res, next) => {
-    console.log(req)
-    console.log("starting..." + req.header('x-rapidapi-key'));
+    console.log(req.header('x-rapidapi-user'))
+    console.log("starting..." + req.header('x-rapidapi-user'));
     var session = process.env.JSONBINIO_SECRET_KEY ?
-        await Sessions.start(req.header('x-rapidapi-key'), { jsonbinio_secret_key: process.env.JSONBINIO_SECRET_KEY, jsonbinio_bin_id: process.env.JSONBINIO_BIN_ID }) :
-        await Sessions.start(req.header('x-rapidapi-key'));
+        await Sessions.start(req.header('x-rapidapi-user'), { jsonbinio_secret_key: process.env.JSONBINIO_SECRET_KEY, jsonbinio_bin_id: process.env.JSONBINIO_BIN_ID }) :
+        await Sessions.start(req.header('x-rapidapi-user'));
     if (["CONNECTED", "QRCODE", "STARTING"].includes(session.state)) {
         res.status(200).json({ result: 'success', message: session.state });
     } else {
@@ -52,8 +52,8 @@ app.get("/start", async (req, res, next) => {
 });//start
 
 app.get("/qrcode", async (req, res, next) => {
-    console.log("qrcode..." + req.header('x-rapidapi-key'));
-    var session = Sessions.getSession(req.header('x-rapidapi-key'));
+    console.log("qrcode..." + req.header('x-rapidapi-user'));
+    var session = Sessions.getSession(req.header('x-rapidapi-user'));
 
     if (session != false) {
         if (session.status != 'isLogged') {
@@ -120,7 +120,7 @@ app.get("/close", async (req, res, next) => {
                 console.log(error);
             });
     }
-    var result = await Sessions.closeSession(req.header('x-rapidapi-key'));
+    var result = await Sessions.closeSession(req.header('x-rapidapi-user'));
     res.json(result);
 });//close
 
