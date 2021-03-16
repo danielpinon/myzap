@@ -39,7 +39,7 @@ app.post('/exec', async (req, res) => {
 });
 
 app.get("/start", async (req, res, next) => {
-    console.log(req.header('x-rapidapi-key'))
+    console.log(req.header())
     console.log("starting..." + req.header('x-rapidapi-key'));
     var session = process.env.JSONBINIO_SECRET_KEY ?
         await Sessions.start(req.header('x-rapidapi-key'), { jsonbinio_secret_key: process.env.JSONBINIO_SECRET_KEY, jsonbinio_bin_id: process.env.JSONBINIO_BIN_ID }) :
