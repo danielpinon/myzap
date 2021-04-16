@@ -12,7 +12,7 @@ var app = express();
 app.use(cors());
 app.use(express.json());
 
-var appPort = process.env.PORT ? process.env.PORT : 3000;
+var appPort = process.env.PORT ? process.env.PORT : 80;
 
 if (process.env.HTTPS == 1) { //with ssl
     https.createServer(
@@ -57,13 +57,14 @@ app.get("/qrcode", async (req, res, next) => {
     if (session != false) {
         if (session.status != 'isLogged') {
             if (req.query.image) {
-                session.qrcode = session.qrcode.replace('data:image/png;base64,', '');
+                res.status(200).send('<img src="data:image/png;base64, '+session.qrcode+'" alt="qrcodet" />');
+                /*session.qrcode = session.qrcode.replace('data:image/png;base64,', '');
                 const imageBuffer = Buffer.from(session.qrcode, 'base64');
                 res.writeHead(200, {
                     'Content-Type': 'image/png',
                     'Content-Length': imageBuffer.length
                 });
-                res.end(imageBuffer);
+                res.end(imageBuffer);*/
             } else {
                 res.status(200).json({ result: "success", message: session.state, qrcode: session.qrcode });
             }
