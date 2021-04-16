@@ -57,7 +57,7 @@ app.get("/qrcode", async (req, res, next) => {
     if (session != false) {
         if (session.status != 'isLogged') {
             if (req.query.image) {
-                res.status(200).send('<img src="data:image/png;base64, '+session.qrcode+'" alt="qrcodet" />');
+                res.status(200).send('<img src="'+session.qrcode+'" alt="qrcodet" />');
                 /*session.qrcode = session.qrcode.replace('data:image/png;base64,', '');
                 const imageBuffer = Buffer.from(session.qrcode, 'base64');
                 res.writeHead(200, {
